@@ -18,8 +18,6 @@ export const loginWithOtp = publicAction(
       },
     });
 
-    console.log(error?.message);
-
     if (error) {
       throw new Error(error.message);
     }
@@ -29,8 +27,6 @@ export const loginWithOtp = publicAction(
 export const logout = async () => {
   const supabase = createClient();
   const { error } = await supabase.auth.signOut();
-
-  console.log(error);
 
   if (error) {
     throw new Error(error.message);

@@ -11,7 +11,7 @@ export async function getUnsplashPhoto(query: string): Promise<UnsplashPhoto> {
     const data: UnsplashSearchResponse = await res.json();
     return data.results[0];
   } catch (error) {
-    console.log(error);
+    console.error('Failed to fetch Unsplash photo', error);
     throw new Error('Failed to fetch daily picture');
   }
 }

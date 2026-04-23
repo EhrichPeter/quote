@@ -8,7 +8,7 @@ export async function getDailyZenquote(): Promise<Quote> {
     const data: Quote[] = await res.json();
     return data[0];
   } catch (error) {
-    console.log(error);
+    console.error('Failed to fetch Zen quote', error);
     throw new Error('Failed to fetch daily quote');
   }
 }
