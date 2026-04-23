@@ -3,7 +3,6 @@
 import { toggleBookmark } from "@/server/bookmarks/actions";
 import { QuoteWithBookMark } from "@/server/quotes/models";
 import {
-  BookmarkCheckIcon,
   BookmarkIcon,
   CheckIcon,
   CopyIcon,
@@ -15,6 +14,7 @@ import dayjs from "dayjs";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 const QuoteCard = (props: QuoteWithBookMark) => {
   const {
@@ -42,16 +42,12 @@ const QuoteCard = (props: QuoteWithBookMark) => {
         });
         return;
       }
-      toast(new_state ? "Bookmark saved" : "Bookmark removed", {
-        description: new_state
-          ? "You have bookmarked this quote."
-          : "You have unbookmarked this quote.",
-      });
+      toast(new_state ? "Bookmark saved" : "Bookmark removed");
       queryClient.invalidateQueries({ queryKey: ["quotes"] });
       queryClient.invalidateQueries({ queryKey: ["latestQuote"] });
     },
     onError: () => {
-      toast("Something went wrong!", {
+      toast("Something went wrong", {
         description: "Please try again in a moment.",
       });
     },
@@ -62,59 +58,52 @@ const QuoteCard = (props: QuoteWithBookMark) => {
     try {
       await navigator.clipboard.writeText(`"${quote}" — ${author}`);
       setCopied(true);
-      toast("Copied to clipboard");
+      toast("Copied");
       setTimeout(() => setCopied(false), 1800);
     } catch {
       toast("Couldn't copy", {
-        description: "Your browser blocked clipboard access.",
+        description: "Clipboard access was blocked.",
       });
     }
   };
 
   return (
-    <figure className="group relative flex w-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card/60 shadow-soft backdrop-blur-sm transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-glow">
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl">
+    <figure className="group relative flex w-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition-[transform,box-shadow,border-color] duration-500 ease-out hover:-translate-y-0.5 hover:border-border hover:shadow-[0_20px_40px_-24px_hsl(var(--foreground)/0.2)]">
+      <div className="relative aspect-[4/3] w-full overflow-hidden">
         <Image
           src={picture_link}
           alt={picture_alt}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
           priority
         />
         <div
           aria-hidden
-          className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/10"
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-transparent to-transparent mix-blend-soft-light"
+          className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent"
         />
 
-        <div className="absolute left-4 top-4 flex flex-wrap items-center gap-2 text-[11px] font-medium text-white/90">
-          <span className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-black/30 px-2.5 py-1 backdrop-blur-md">
-            {dayjs(created_at).format("MMM D, YYYY")}
-          </span>
-          <span className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-black/30 px-2.5 py-1 backdrop-blur-md">
-            <BookmarkIcon className="h-3 w-3" /> {bookmarks.length}
-          </span>
-        </div>
-
-        <blockquote className="absolute inset-x-0 bottom-0 flex flex-col items-center gap-3 px-5 pb-6 pt-16 text-center text-white sm:px-8 sm:pb-8">
-          <p className="font-display line-clamp-5 text-balance text-xl leading-snug drop-shadow-md sm:text-2xl md:text-3xl">
+        <blockquote className="absolute inset-x-0 bottom-0 flex flex-col items-center gap-3 px-6 pb-7 pt-14 text-center text-white sm:px-8">
+          <p className="font-display line-clamp-5 text-balance text-xl leading-snug sm:text-2xl">
             &ldquo;{quote}&rdquo;
           </p>
-          <figcaption className="text-[10px] font-medium uppercase tracking-[0.18em] text-white/70 sm:text-xs">
-            — {author}
+          <figcaption className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/75">
+            {author}
           </figcaption>
         </blockquote>
       </div>
 
-      <div className="flex items-center justify-between gap-2 border-t border-border/60 bg-card/80 px-4 py-2.5 backdrop-blur">
+      <div className="flex items-center justify-between gap-2 border-t border-border/70 px-4 py-2.5">
         <span className="text-xs text-muted-foreground">
           {dayjs(created_at).format("MMM D, YYYY")}
         </span>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-0.5">
+          {bookmarks.length > 0 && (
+            <span className="mr-2 inline-flex items-center gap-1 text-xs text-muted-foreground">
+              <BookmarkIcon className="h-3 w-3" />
+              {bookmarks.length}
+            </span>
+          )}
           <Button
             variant="ghost"
             size="icon"
@@ -123,11 +112,20 @@ const QuoteCard = (props: QuoteWithBookMark) => {
             title="Copy quote"
             className="h-8 w-8 rounded-full"
           >
-            {copied ? (
-              <CheckIcon className="h-4 w-4 text-primary" />
-            ) : (
-              <CopyIcon className="h-4 w-4" />
-            )}
+            <span className="relative block h-4 w-4">
+              <CopyIcon
+                className={cn(
+                  "absolute inset-0 h-4 w-4 transition-all duration-200",
+                  copied ? "scale-50 opacity-0" : "scale-100 opacity-100"
+                )}
+              />
+              <CheckIcon
+                className={cn(
+                  "absolute inset-0 h-4 w-4 transition-all duration-200",
+                  copied ? "scale-100 opacity-100" : "scale-50 opacity-0"
+                )}
+              />
+            </span>
           </Button>
           <Button
             variant="ghost"
@@ -141,10 +139,15 @@ const QuoteCard = (props: QuoteWithBookMark) => {
           >
             {isPending ? (
               <LoaderIcon className="h-4 w-4 animate-spin" />
-            ) : bookmarked ? (
-              <BookmarkCheckIcon className="h-4 w-4 text-primary" />
             ) : (
-              <BookmarkIcon className="h-4 w-4" />
+              <BookmarkIcon
+                className={cn(
+                  "h-4 w-4 transition-all duration-200",
+                  bookmarked
+                    ? "scale-110 fill-current text-foreground"
+                    : "scale-100 text-muted-foreground"
+                )}
+              />
             )}
           </Button>
         </div>

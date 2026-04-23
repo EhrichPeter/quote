@@ -41,10 +41,10 @@ const QuoteList = () => {
 
   if (isPending) {
     return (
-      <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <div className="sm:col-span-2">
-          <QuoteCardSkeleton />
-        </div>
+      <div className="grid w-full auto-rows-fr grid-cols-1 items-start gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <QuoteCardSkeleton />
+        <QuoteCardSkeleton />
+        <QuoteCardSkeleton />
         <QuoteCardSkeleton />
         <QuoteCardSkeleton />
         <QuoteCardSkeleton />
@@ -62,14 +62,9 @@ const QuoteList = () => {
 
   return (
     <div className="flex w-full flex-col gap-10">
-      <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {filteredQuotes.map((quote: QuoteWithBookMark, i) => (
-          <div
-            key={quote.id}
-            className={i === 0 ? "sm:col-span-2" : undefined}
-          >
-            <QuoteCard {...quote} />
-          </div>
+      <div className="grid w-full auto-rows-fr grid-cols-1 items-start gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {filteredQuotes.map((quote: QuoteWithBookMark) => (
+          <QuoteCard key={quote.id} {...quote} />
         ))}
       </div>
       <div

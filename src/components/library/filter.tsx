@@ -5,12 +5,11 @@ import {
   useRouter,
   useSearchParams,
 } from "next/dist/client/components/navigation";
-import { BookmarkIcon, LayersIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const FILTERS = [
-  { key: null, label: "All quotes", icon: LayersIcon },
-  { key: "bookmarked", label: "Bookmarked", icon: BookmarkIcon },
+  { key: null, label: "All" },
+  { key: "bookmarked", label: "Bookmarked" },
 ] as const;
 
 export const Filter = () => {
@@ -29,9 +28,9 @@ export const Filter = () => {
     <div
       role="tablist"
       aria-label="Filter quotes"
-      className="inline-flex items-center gap-1 rounded-full border border-border/70 bg-card/60 p-1 shadow-soft backdrop-blur"
+      className="inline-flex items-center gap-1 rounded-full border border-border/70 bg-card p-1"
     >
-      {FILTERS.map(({ key, label, icon: Icon }) => {
+      {FILTERS.map(({ key, label }) => {
         const active = (currentTag ?? null) === key;
         return (
           <button
@@ -40,13 +39,12 @@ export const Filter = () => {
             aria-selected={active}
             onClick={() => setFilter(key)}
             className={cn(
-              "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors",
+              "rounded-full px-4 py-1.5 text-sm transition-colors",
               active
-                ? "bg-primary text-primary-foreground shadow-sm"
+                ? "bg-foreground text-background"
                 : "text-muted-foreground hover:text-foreground"
             )}
           >
-            <Icon className="h-3.5 w-3.5" />
             {label}
           </button>
         );
