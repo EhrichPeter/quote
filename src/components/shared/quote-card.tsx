@@ -69,13 +69,13 @@ const QuoteCard = (props: QuoteWithBookMark) => {
 
   return (
     <figure className="group relative flex w-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition-[transform,box-shadow,border-color] duration-500 ease-out hover:-translate-y-0.5 hover:border-border hover:shadow-[0_20px_40px_-24px_hsl(var(--foreground)/0.2)]">
-      <div className="relative aspect-[4/3] w-full overflow-hidden">
+      <div className="relative isolate aspect-[4/3] w-full overflow-hidden border-b border-border/70">
         <Image
           src={picture_link}
           alt={picture_alt}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          className="transform-gpu object-cover transition-transform duration-700 ease-out [backface-visibility:hidden] group-hover:scale-[1.03]"
           priority
         />
         <div
@@ -93,7 +93,7 @@ const QuoteCard = (props: QuoteWithBookMark) => {
         </blockquote>
       </div>
 
-      <div className="flex items-center justify-between gap-2 border-t border-border/70 px-4 py-2.5">
+      <div className="flex items-center justify-between gap-2 px-4 py-2.5">
         <span className="text-xs text-muted-foreground">
           {dayjs(created_at).format("MMM D, YYYY")}
         </span>
