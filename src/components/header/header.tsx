@@ -14,7 +14,7 @@ export async function Header() {
   const { user } = (await supabase.auth.getUser()).data;
 
   return (
-    <header className="sticky top-0 flex h-16 items-center gap-4  border-b px-4 md:px-6 justify-between z-10 bg-background">
+    <header className="sticky top-0 z-10 flex h-16 items-center justify-between gap-4 border-b bg-background/80 px-4 backdrop-blur md:px-6">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
         <Links />
       </nav>
@@ -31,12 +31,12 @@ export async function Header() {
           </nav>
         </SheetContent>
       </Sheet>
-      <div className="flex gap-4">
+      <div className="flex items-center gap-2 md:gap-3">
         <ModeToggle />
         {user ? (
           <UserDropdown email={user.email} />
         ) : (
-          <Button>
+          <Button asChild>
             <Link href="/login">Log in</Link>
           </Button>
         )}

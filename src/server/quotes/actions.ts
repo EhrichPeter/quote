@@ -10,7 +10,6 @@ export async function cronCreateOne(): Promise<void> {
   const openai = new OpenAI();
 
   const quote = await getDailyZenquote();
-  console.log("quote", quote.q);
 
   const keywordCompletion = await openai.chat.completions.create({
     messages: [
@@ -26,8 +25,6 @@ export async function cronCreateOne(): Promise<void> {
     ],
     model: "gpt-3.5-turbo",
   });
-
-  console.log("completion", keywordCompletion.choices[0].message.content);
 
   const photo = await getUnsplashPhoto(
     keywordCompletion.choices[0].message.content ?? quote.q

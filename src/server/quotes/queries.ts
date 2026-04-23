@@ -54,8 +54,6 @@ export const countBookmarkedQuotes = async () => {
     .select("*, bookmarks(user_id)", { count: "exact", head: true })
     .match({ "bookmarks.user_id": user.id });
 
-  console.log(count);
-
   return count ?? 0;
 };
 

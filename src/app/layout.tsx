@@ -11,8 +11,24 @@ import { Toaster } from "@/components/ui/sonner";
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Quote of the day",
-  description: "Get a new quote every day",
+  title: {
+    default: "Quote of the day",
+    template: "%s · Quote",
+  },
+  description:
+    "A new inspiring quote every day, paired with a beautiful photo. Save your favorites and build your own library.",
+  openGraph: {
+    title: "Quote of the day",
+    description:
+      "A new inspiring quote every day, paired with a beautiful photo.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Quote of the day",
+    description:
+      "A new inspiring quote every day, paired with a beautiful photo.",
+  },
 };
 
 export default function RootLayout({
