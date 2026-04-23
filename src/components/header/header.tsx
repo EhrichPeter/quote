@@ -13,16 +13,16 @@ export async function Header() {
   const { user } = (await supabase.auth.getUser()).data;
 
   return (
-    <header className="sticky top-0 z-30 border-b border-border/60 bg-background/70 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between gap-4 px-4 md:px-6">
-        <nav className="hidden items-center gap-6 md:flex">
+    <header className="sticky top-0 z-30 border-b border-border/60 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center justify-between gap-6 px-4 md:px-6">
+        <div className="hidden items-center gap-8 md:flex">
           <Links />
-        </nav>
+        </div>
 
         <Sheet>
           <SheetTrigger asChild>
             <Button
-              variant="outline"
+              variant="ghost"
               size="icon"
               className="shrink-0 md:hidden"
             >
@@ -31,19 +31,19 @@ export async function Header() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left">
-            <nav className="mt-6 grid gap-4 text-base font-medium">
+            <div className="mt-6 flex flex-col gap-6 text-base">
               <Links />
-            </nav>
+            </div>
           </SheetContent>
         </Sheet>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <ModeToggle />
           {user ? (
             <UserDropdown email={user.email} />
           ) : (
-            <Button asChild size="sm" className="rounded-full px-4">
-              <Link href="/login">Log in</Link>
+            <Button asChild variant="ghost" size="sm" className="text-sm">
+              <Link href="/login">Sign in</Link>
             </Button>
           )}
         </div>
