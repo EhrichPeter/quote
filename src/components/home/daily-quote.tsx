@@ -26,15 +26,17 @@ const DailyQuote = () => {
         </p>
       </div>
 
-      {isPending ? (
-        <QuoteCardSkeleton />
-      ) : isError || !quote ? (
-        <p className="text-sm text-muted-foreground">
-          Couldn&apos;t load today&apos;s quote. Please refresh and try again.
-        </p>
-      ) : (
-        <QuoteCard {...quote} />
-      )}
+      <div className="w-full max-w-2xl">
+        {isPending ? (
+          <QuoteCardSkeleton />
+        ) : isError || !quote ? (
+          <p className="text-center text-sm text-muted-foreground">
+            Couldn&apos;t load today&apos;s quote. Please refresh and try again.
+          </p>
+        ) : (
+          <QuoteCard {...quote} />
+        )}
+      </div>
     </div>
   );
 };

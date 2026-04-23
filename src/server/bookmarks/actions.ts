@@ -1,14 +1,13 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
-import { revalidatePath } from "next/cache";
-import { authAction } from "../safe-action";
+import { authActionClient } from "../safe-action";
 import { toggleBookMarkSchema } from "./models";
 
-export const toggleBookmark = authAction(
-  toggleBookMarkSchema,
-  async ({ quote_id }, { user_id }) => {
-    const supabase = createClient();
+export const toggleBookmark = authActionClient
+  .inputSchema(toggleBookMarkSchema)
+  .action(async ({ parsedInput: { quote_id }, ctx: { user_id } }) => {
+    const supabase = await createClient();
 
     let new_state: boolean;
 
@@ -33,5 +32,4 @@ export const toggleBookmark = authAction(
     }
 
     return new_state;
-  }
-);
+  });

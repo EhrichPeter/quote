@@ -1,12 +1,8 @@
 import Footer from "@/components/footer/footer";
 import { Header } from "@/components/header/header";
-import type { ReactElement } from "react";
+import type { ReactNode } from "react";
 
-interface LayoutProps {
-  children: ReactElement;
-}
-
-export default function Layout({ children }: LayoutProps): JSX.Element {
+export default function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="relative flex min-h-screen flex-col">
       <div

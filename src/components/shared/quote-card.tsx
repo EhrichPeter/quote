@@ -32,9 +32,14 @@ const QuoteCard = (props: QuoteWithBookMark) => {
   const { isPending, mutate } = useMutation({
     mutationKey: ["quotes"],
     mutationFn: () => toggleBookmark({ quote_id: id }),
-    onSuccess: ({ data: new_state, serverError }) => {
+    onSuccess: (result) => {
+      const serverError = result?.serverError;
+      const new_state = result?.data;
       if (serverError) {
-        toast("Almost there!", { description: serverError });
+        toast("Almost there!", {
+          description:
+            typeof serverError === "string" ? serverError : undefined,
+        });
         return;
       }
       toast(new_state ? "Bookmark saved" : "Bookmark removed", {
@@ -67,13 +72,13 @@ const QuoteCard = (props: QuoteWithBookMark) => {
   };
 
   return (
-    <figure className="group relative w-full max-w-2xl overflow-hidden rounded-2xl border border-border/70 bg-card/60 shadow-soft backdrop-blur-sm transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-glow">
-      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-t-2xl">
+    <figure className="group relative flex w-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card/60 shadow-soft backdrop-blur-sm transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-glow">
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl">
         <Image
           src={picture_link}
           alt={picture_alt}
           fill
-          sizes="(max-width: 768px) 100vw, 672px"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           priority
         />
@@ -95,11 +100,11 @@ const QuoteCard = (props: QuoteWithBookMark) => {
           </span>
         </div>
 
-        <blockquote className="absolute inset-x-0 bottom-0 flex flex-col items-center gap-3 px-6 pb-8 pt-20 text-center text-white sm:px-10 sm:pb-10">
-          <p className="font-display text-balance text-2xl leading-snug drop-shadow-md sm:text-3xl md:text-4xl">
+        <blockquote className="absolute inset-x-0 bottom-0 flex flex-col items-center gap-3 px-5 pb-6 pt-16 text-center text-white sm:px-8 sm:pb-8">
+          <p className="font-display line-clamp-5 text-balance text-xl leading-snug drop-shadow-md sm:text-2xl md:text-3xl">
             &ldquo;{quote}&rdquo;
           </p>
-          <figcaption className="text-xs font-medium uppercase tracking-[0.18em] text-white/70">
+          <figcaption className="text-[10px] font-medium uppercase tracking-[0.18em] text-white/70 sm:text-xs">
             — {author}
           </figcaption>
         </blockquote>

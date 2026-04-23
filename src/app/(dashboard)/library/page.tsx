@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Library() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { user } = (await supabase.auth.getUser()).data;
 
   const queryClient = new QueryClient();

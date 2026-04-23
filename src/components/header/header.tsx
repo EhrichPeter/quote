@@ -9,7 +9,7 @@ import Links from "./links";
 import { UserDropdown } from "./user-dropdown";
 
 export async function Header() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { user } = (await supabase.auth.getUser()).data;
 
   return (
