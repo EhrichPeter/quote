@@ -6,7 +6,7 @@ import { getDailyZenquote } from "../zenquote/queries";
 import OpenAI from "openai";
 
 export async function cronCreateOne(): Promise<void> {
-  const supabase = createClient();
+  const supabase = await createClient();
   const openai = new OpenAI();
 
   const quote = await getDailyZenquote();

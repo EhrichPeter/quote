@@ -41,7 +41,11 @@ const QuoteList = () => {
 
   if (isPending) {
     return (
-      <div className="flex w-full flex-col items-center gap-10">
+      <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="sm:col-span-2">
+          <QuoteCardSkeleton />
+        </div>
+        <QuoteCardSkeleton />
         <QuoteCardSkeleton />
         <QuoteCardSkeleton />
       </div>
@@ -49,14 +53,25 @@ const QuoteList = () => {
   }
 
   if (filteredQuotes.length === 0) {
-    return <NoQuotes />;
+    return (
+      <div className="flex w-full justify-center">
+        <NoQuotes />
+      </div>
+    );
   }
 
   return (
-    <div className="flex w-full flex-col items-center gap-10">
-      {filteredQuotes.map((quote: QuoteWithBookMark) => (
-        <QuoteCard key={quote.id} {...quote} />
-      ))}
+    <div className="flex w-full flex-col gap-10">
+      <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {filteredQuotes.map((quote: QuoteWithBookMark, i) => (
+          <div
+            key={quote.id}
+            className={i === 0 ? "sm:col-span-2" : undefined}
+          >
+            <QuoteCard {...quote} />
+          </div>
+        ))}
+      </div>
       <div
         ref={ref}
         className="flex h-10 items-center justify-center text-muted-foreground"

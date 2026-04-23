@@ -11,7 +11,7 @@ export async function findMany({
   limit?: number;
   pageParam?: number;
 }): Promise<PaginatedQuoteResponse> {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { user } = (await supabase.auth.getUser()).data;
 
   const quoteResult = await supabase
@@ -42,7 +42,7 @@ export async function findMany({
 }
 
 export const countBookmarkedQuotes = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { user } = (await supabase.auth.getUser()).data;
 
   if (!user) {
@@ -58,7 +58,7 @@ export const countBookmarkedQuotes = async () => {
 };
 
 export const findOneLatest = async (): Promise<QuoteWithBookMark> => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { user } = (await supabase.auth.getUser()).data;
 
   const quote = await supabase

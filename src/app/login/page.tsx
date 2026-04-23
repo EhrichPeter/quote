@@ -37,14 +37,17 @@ export default function Login() {
       });
       reset();
     },
-    onError: (error) => {
+    onError: ({ error }) => {
       if (error.validationErrors) {
         toast("Something went wrong!", {
           description: "Please check your email and try again.",
         });
       } else if (error.serverError) {
         toast("Something went wrong!", {
-          description: error.serverError,
+          description:
+            typeof error.serverError === "string"
+              ? error.serverError
+              : "Please try again.",
         });
       }
     },

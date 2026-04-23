@@ -2,17 +2,17 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
-import { publicAction } from "../safe-action";
+import { actionClient } from "../safe-action";
 import { loginWithOtpFormSchema } from "./models";
 import { getURL } from "./queries";
 
-export const loginWithOtp = publicAction(
-  loginWithOtpFormSchema,
-  async (input) => {
-    const supabase = createClient();
+export const loginWithOtp = actionClient
+  .inputSchema(loginWithOtpFormSchema)
+  .action(async ({ parsedInput }) => {
+    const supabase = await createClient();
 
     const { error } = await supabase.auth.signInWithOtp({
-      email: input.email,
+      email: parsedInput.email,
       options: {
         emailRedirectTo: getURL(),
       },
@@ -21,11 +21,10 @@ export const loginWithOtp = publicAction(
     if (error) {
       throw new Error(error.message);
     }
-  }
-);
+  });
 
 export const logout = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { error } = await supabase.auth.signOut();
 
   if (error) {
