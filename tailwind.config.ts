@@ -21,6 +21,13 @@ const config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
+        serif: ["var(--font-serif)", ...fontFamily.serif],
+      },
+      boxShadow: {
+        soft:
+          "0 1px 2px 0 rgb(0 0 0 / 0.04), 0 8px 24px -8px rgb(0 0 0 / 0.12)",
+        glow:
+          "0 0 0 1px hsl(var(--border)), 0 20px 40px -12px hsl(var(--primary) / 0.25)",
       },
       colors: {
         border: "hsl(var(--border))",

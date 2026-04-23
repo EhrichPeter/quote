@@ -41,7 +41,7 @@ const QuoteList = () => {
 
   if (isPending) {
     return (
-      <div className="flex flex-col items-center w-full gap-8">
+      <div className="flex w-full flex-col items-center gap-10">
         <QuoteCardSkeleton />
         <QuoteCardSkeleton />
       </div>
@@ -53,13 +53,16 @@ const QuoteList = () => {
   }
 
   return (
-    <div className="flex flex-col items-center w-full gap-8">
+    <div className="flex w-full flex-col items-center gap-10">
       {filteredQuotes.map((quote: QuoteWithBookMark) => (
         <QuoteCard key={quote.id} {...quote} />
       ))}
-      <div ref={ref} className="h-8 flex items-center justify-center">
+      <div
+        ref={ref}
+        className="flex h-10 items-center justify-center text-muted-foreground"
+      >
         {fetchStatus === "fetching" ? (
-          <LoaderIcon className="animate-spin text-muted-foreground" />
+          <LoaderIcon className="h-4 w-4 animate-spin" />
         ) : null}
       </div>
     </div>

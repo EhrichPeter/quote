@@ -1,4 +1,6 @@
 "use client";
+import { SparklesIcon } from "lucide-react";
+import dayjs from "dayjs";
 import QuoteCard from "../shared/quote-card";
 import QuoteCardSkeleton from "../shared/quote-card-skeleton";
 import { useGetLatestQuote } from "@/data/get-latest-quote";
@@ -7,13 +9,23 @@ const DailyQuote = () => {
   const { data: quote, isPending, isError } = useGetLatestQuote();
 
   return (
-    <div className="flex flex-col items-center w-full gap-8">
-      <div className="grid text-center">
-        <h1 className="text-4xl font-bold tracking-tight">Quote of the day</h1>
-        <p className="text-balance text-muted-foreground">
-          Your daily dose of inspiration.
+    <div className="flex w-full flex-col items-center gap-10">
+      <div className="flex flex-col items-center gap-5 text-center">
+        <span className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/60 px-3 py-1 text-xs font-medium text-muted-foreground backdrop-blur">
+          <SparklesIcon className="h-3.5 w-3.5 text-primary" />
+          {dayjs().format("dddd, MMMM D")}
+        </span>
+        <h1 className="font-display text-5xl font-normal leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
+          <span className="text-gradient">Daily inspiration</span>
+          <br />
+          <span className="text-foreground">for your work &amp; life.</span>
+        </h1>
+        <p className="max-w-xl text-balance text-muted-foreground sm:text-lg">
+          A new handpicked quote every day, paired with a beautiful photo. Save
+          the ones that move you.
         </p>
       </div>
+
       {isPending ? (
         <QuoteCardSkeleton />
       ) : isError || !quote ? (
